@@ -1,27 +1,32 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class BrowserScreen extends StatelessWidget {
-  BrowserScreen({this.masterCotroller});
+class BrowserScreen extends StatefulWidget {
+  BrowserScreen(
+      {@required this.masterCotroller, @required this.url, this.sourceName})
+      : assert(masterCotroller != null),
+        assert(url != null);
+  final PageController masterCotroller;
+  final String url;
+  final String sourceName;
+  @override
+  _BrowserScreenState createState() => _BrowserScreenState();
+}
+
+class _BrowserScreenState extends State<BrowserScreen> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
-  final PageController masterCotroller;
 
   Future<bool> _backButton(Future<WebViewController> futureController) async {
-    
     WebViewController _tempController;
     await futureController.then((value) => _tempController = value);
-    
-    if(await _tempController.canGoBack())
-    {
+
+    if (await _tempController.canGoBack()) {
       _tempController.goBack();
       return false;
-    }
-    else
-    {
-      masterCotroller.animateToPage(3, duration: Duration(seconds: 1), curve: Curves.ease);
+    } else {
+      // widget.masterCotroller.animateToPage(3, duration: Duration(seconds: 1), curve: Curves.ease);
       print("cant go back");
       // return true;
     }
@@ -32,15 +37,23 @@ class BrowserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-       return _backButton(_controller.future); 
+        return _backButton(_controller.future);
       },
       child: Scaffold(
         appBar: PreferredSize(
-            child: AppBar(
-              backgroundColor: Colors.black,
-              title: Text("Source Name"),
+          child: AppBar(
+            backgroundColor: Colors.black,
+            title: Text(
+              "Source Name",
+              style: TextStyle(
+                fontWeight: FontWeight.w300,
+              ),
             ),
-            preferredSize: Size.fromHeight(15.0)),
+            centerTitle: true,
+          ),
+          preferredSize:
+              Size.fromHeight(MediaQuery.of(context).size.height * 0.039),
+        ),
         body: WebView(
           onWebViewCreated: (controller) => _controller.complete(controller),
           initialUrl: 'https://www.flutter.dev',

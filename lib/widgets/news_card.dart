@@ -1,11 +1,29 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:inshorts_clone/Models/newsModel.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class NewsCard extends StatelessWidget {
+  NewsCard({@required this.news,@required this.masterController})
+    :assert(news!=null),
+     assert(masterController!=null);
+
+    
+  final NewsModel news;
+  final PageController masterController;
+
   @override
   Widget build(BuildContext context) {
+    int _getTime(String time) {
+      return DateTime.now().difference(DateTime.parse(time)).inHours + 5;
+    }
+
+    int hoursDiff = _getTime(news.publishedAt);
+    String time = (hoursDiff > 2) ? '$hoursDiff hours ago' : 'few hours ago';
+    // TimeOfDay.fromDateTime();
+
     return Scaffold(
+      key: UniqueKey(),
       backgroundColor: Colors.black,
       body: Container(
         // padding: EdgeInsets.all(10.0),
@@ -28,9 +46,8 @@ class NewsCard extends StatelessWidget {
                     ),
                     child: FadeInImage.memoryNetwork(
                       placeholder: kTransparentImage,
-                      image:
-                          "https://images.pexels.com/photos/1111369/pexels-photo-1111369.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-                      fadeInCurve: ElasticInCurve(),
+                      image: news.urlToImage,
+                      fadeInCurve: Curves.ease,
                       placeholderScale: 2.0,
                       fit: BoxFit.cover,
                     ),
@@ -47,14 +64,14 @@ class NewsCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Coronavirus live news: South Korea records no new domestic cases for first time since February - The Guardian',
+                      news.title,
                       style: TextStyle(fontSize: 27.0),
                     ),
                     SizedBox(
                       height: 10.0,
                     ),
                     Text(
-                      'Trump claims China wants to block his re-election; 100 cases of unusual illness among children in at least six countries; UK deaths top Spain and France',
+                      news.description,
                       maxLines: 7,
                       textWidthBasis: TextWidthBasis.parent,
                       overflow: TextOverflow.clip,
@@ -67,7 +84,7 @@ class NewsCard extends StatelessWidget {
                       height: 13.0,
                     ),
                     Text(
-                      'published in "source name" / few hours ago',
+                      'published in ${news.srcName}/$time',
                       style: TextStyle(color: Colors.grey, fontSize: 15),
                     ),
                   ],
@@ -77,6 +94,7 @@ class NewsCard extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 //open we view for this post
+                masterController.animateToPage(2, duration: Duration(seconds: 1), curve: Curves.ease);
                 print('tapped');
               },
               child: Container(
@@ -86,18 +104,22 @@ class NewsCard extends StatelessWidget {
                     ClipRect(
                       child: Container(
                         decoration: BoxDecoration(
+                          color: Colors.grey,
                           image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://images.pexels.com/photos/1111369/pexels-photo-1111369.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"),
+                              image: NetworkImage(news.urlToImage),
                               fit: BoxFit.cover),
                           borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(10.0)),
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
                         ),
                         child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
-                          child:
-                              Container(color: Colors.black.withOpacity(0.7)),
+                          filter: ImageFilter.blur(
+                            sigmaX: 25,
+                            sigmaY: 25,
+                          ),
+                          child: Container(
+                            color: Colors.black.withOpacity(0.65),
+                          ),
                         ),
                       ),
                     ),
