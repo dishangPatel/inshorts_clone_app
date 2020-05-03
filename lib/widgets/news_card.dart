@@ -72,9 +72,9 @@ class NewsCard extends StatelessWidget {
                     ),
                     Text(
                       news.description,
-                      maxLines: 7,
+                      maxLines: 8,
                       textWidthBasis: TextWidthBasis.parent,
-                      overflow: TextOverflow.clip,
+                      overflow: TextOverflow.fade,
                       style: TextStyle(
                         fontSize: 21.0,
                         fontWeight: FontWeight.w300,
@@ -84,7 +84,7 @@ class NewsCard extends StatelessWidget {
                       height: 13.0,
                     ),
                     Text(
-                      'published in ${news.srcName}/$time',
+                      'published in ${news.srcName} / $time',
                       style: TextStyle(color: Colors.grey, fontSize: 15),
                     ),
                   ],

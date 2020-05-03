@@ -23,11 +23,15 @@ class _DisplayScreenState extends State<DisplayScreen> {
 
   @override
   void initState() {
+    print("display screen");
     super.initState();
     newsModel.fetchNews(page);
+
+
     _pageController.addListener(() {
       if (_pageController.position.pixels ==
           _pageController.position.maxScrollExtent) {
+            print("fetch more");
         newsModel.fetchNews(++page);
       }
     });
@@ -54,7 +58,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
         builder: (context, child, model) {
           newsList = model.newsList;
           return (model.currentState == ViewState.busy)
-              ? CircularProgressIndicator()
+              ? SizedBox(child:CircularProgressIndicator(),height: 30.0,width: 30.0,)
               : PageView.builder(
                   onPageChanged: (val) {
                     // print("url set" + newsList[val].url);
