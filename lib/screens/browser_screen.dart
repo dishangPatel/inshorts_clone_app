@@ -5,8 +5,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 class BrowserScreen extends StatefulWidget {
   BrowserScreen(
       {@required this.masterCotroller, @required this.url, this.sourceName})
-      : assert(masterCotroller != null),
-        assert(url != null);
+      : assert(masterCotroller != null);
+        // assert(url != null);
   final PageController masterCotroller;
   final String url;
   final String sourceName;
@@ -26,7 +26,7 @@ class _BrowserScreenState extends State<BrowserScreen> {
       _tempController.goBack();
       return false;
     } else {
-      // widget.masterCotroller.animateToPage(3, duration: Duration(seconds: 1), curve: Curves.ease);
+      widget.masterCotroller.animateToPage(1, duration: Duration(seconds: 1), curve: Curves.ease);
       print("cant go back");
       // return true;
     }
@@ -34,7 +34,15 @@ class _BrowserScreenState extends State<BrowserScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    print("rebuild browser screen");
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+    // print("news url "+widget.url);
     return WillPopScope(
       onWillPop: () {
         return _backButton(_controller.future);
@@ -44,7 +52,7 @@ class _BrowserScreenState extends State<BrowserScreen> {
           child: AppBar(
             backgroundColor: Colors.black,
             title: Text(
-              "Source Name",
+              widget.sourceName,
               style: TextStyle(
                 fontWeight: FontWeight.w300,
               ),
@@ -56,7 +64,7 @@ class _BrowserScreenState extends State<BrowserScreen> {
         ),
         body: WebView(
           onWebViewCreated: (controller) => _controller.complete(controller),
-          initialUrl: 'https://www.flutter.dev',
+          initialUrl: widget.url,
           javascriptMode: JavascriptMode.unrestricted,
         ),
       ),

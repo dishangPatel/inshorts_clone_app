@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:inshorts_clone/Models/newsModel.dart';
+import 'package:inshorts_clone/models/news.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class NewsCard extends StatelessWidget {
@@ -9,7 +9,7 @@ class NewsCard extends StatelessWidget {
      assert(masterController!=null);
 
     
-  final NewsModel news;
+  final News news;
   final PageController masterController;
 
   @override
