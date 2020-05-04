@@ -7,9 +7,9 @@ import 'package:inshorts_clone/locator/locator.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class DisplayScreen extends StatefulWidget {
-  DisplayScreen({@required this.setURL, @required this.masterController});
+  DisplayScreen({@required this.masterController});
   final PageController masterController;
-  final Function setURL;
+  // final Function setURL;
   @override
   _DisplayScreenState createState() => _DisplayScreenState();
 }
@@ -18,15 +18,14 @@ class _DisplayScreenState extends State<DisplayScreen> {
   List<News> newsList;
   static int page = 1;
   final int pageSize = 25;
-  final PageController _pageController = PageController();
+  final PageController _pageController = PageController(keepPage: true);
   NewsModel newsModel = locator<NewsModel>();
 
   @override
   void initState() {
     print("display screen");
     super.initState();
-    newsModel.fetchNews(page);
-
+    newsModel.fetchNews(page);    
 
     _pageController.addListener(() {
       if (_pageController.position.pixels ==
@@ -61,8 +60,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
               ? SizedBox(child:CircularProgressIndicator(),height: 30.0,width: 30.0,)
               : PageView.builder(
                   onPageChanged: (val) {
-                    // print("url set" + newsList[val].url);
-                    widget.setURL(newsList[val].url);
+                    model.setUrl(newsList[val].url);
                   },
                   controller: _pageController,
                   itemCount: newsList.length,

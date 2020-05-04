@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:inshorts_clone/locator/locator.dart';
+import 'package:inshorts_clone/viewModels/newsModel.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class BrowserScreen extends StatefulWidget {
   BrowserScreen(
-      {@required this.masterCotroller, @required this.url, this.sourceName})
+      {@required this.masterCotroller, this.sourceName})
       : assert(masterCotroller != null);
-        // assert(url != null);
   final PageController masterCotroller;
-  final String url;
   final String sourceName;
   @override
   _BrowserScreenState createState() => _BrowserScreenState();
@@ -17,6 +17,8 @@ class BrowserScreen extends StatefulWidget {
 class _BrowserScreenState extends State<BrowserScreen> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
+  String _url;  
+  NewsModel _model;
 
   Future<bool> _backButton(Future<WebViewController> futureController) async {
     WebViewController _tempController;
@@ -36,13 +38,18 @@ class _BrowserScreenState extends State<BrowserScreen> {
   @override
   void initState() {
     super.initState();
+    _model = locator<NewsModel>();
+    _url = _model.url;
     print("rebuild browser screen");
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
 
-    // print("news url "+widget.url);
     return WillPopScope(
       onWillPop: () {
         return _backButton(_controller.future);
@@ -64,7 +71,7 @@ class _BrowserScreenState extends State<BrowserScreen> {
         ),
         body: WebView(
           onWebViewCreated: (controller) => _controller.complete(controller),
-          initialUrl: widget.url,
+          initialUrl: _url,
           javascriptMode: JavascriptMode.unrestricted,
         ),
       ),

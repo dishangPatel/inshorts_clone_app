@@ -4,53 +4,49 @@ import 'package:inshorts_clone/models/news.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
 
-enum ViewState {ideal,busy}
+enum ViewState { ideal, busy }
 
+class NewsModel extends Model {
+  static List<News> _newsList = [];
+  String _url;
+  ViewState _currentState = ViewState.ideal;
 
-class NewsModel extends Model
-{
+  List<News> get newsList => _newsList;
+  ViewState get currentState => _currentState;
+  String get url => _url;
 
-    List<News> _newsList=[];
-    ViewState _currentState = ViewState.ideal;  
+  void setUrl(String value) {
+    _url = value;
+  }
 
-    List<News> get newsList => _newsList;
-    ViewState get currentState => _currentState;
+  void setState(ViewState state) {
+    _currentState = state;
+    notifyListeners();
+  }
 
-    void setState(ViewState state)
-    {
-        _currentState = state;
-        notifyListeners();
-    }
-    
+  Future<List<News>> fetchNews(int page) async {
+    try {
+      setState(ViewState.busy);
 
-    Future<List<News>> fetchNews(int page)async
-    {
-      try{
-            setState(ViewState.busy);
+      var response =
+          await http.get("$kBaseURLTopHeadlines+&country=in&page=$page");
+      if (response.statusCode == 200) {
+        var responseJson = jsonDecode(response.body);
+        List<dynamic> articles = responseJson["articles"];
 
-            var response  = await http.get("$kBaseURLTopHeadlines+&country=in&page=$page");
-            if(response.statusCode == 200)
-            {
-               var responseJson = jsonDecode(response.body);
-               List<dynamic> articles = responseJson["articles"];
-               
-               articles.forEach((article){
-                 _newsList.add(News.fromJSON(article));
-               });  
+        articles.forEach((article) {
+          _newsList.add(News.fromJSON(article));
+        });
 
-               setState(ViewState.ideal);
-            }
-            else
-            {
-              setState(ViewState.ideal);
-              throw Exception("Something went wrong");
-            }
-      }catch(e)
-      {
-        throw e;
+        setState(ViewState.ideal);
+      } else {
+        setState(ViewState.ideal);
+        throw Exception("Something went wrong");
       }
+    } catch (e) {
+      throw e;
+    }
 
-      return _newsList;
-    }     
-
+    return _newsList;
+  }
 }

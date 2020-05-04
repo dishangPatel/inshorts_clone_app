@@ -4,9 +4,10 @@ import 'package:inshorts_clone/screens/browser_screen.dart';
 import 'package:inshorts_clone/screens/home_screen.dart';
 import 'package:inshorts_clone/widgets/news_card.dart';
 
-void main(){
- setupLocator();
-  runApp(App());}
+void main() {
+  setupLocator();
+  runApp(App());
+}
 
 class App extends StatelessWidget {
   @override
@@ -14,11 +15,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-      routes: {
-        '/':(context)=>Home()
-      },
+      routes: {'/': (context) => Home()},
     );
   }
 }
-
-
