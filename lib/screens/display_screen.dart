@@ -57,7 +57,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
         builder: (context, child, model) {
           newsList = model.newsList;
           return Scaffold(
-            body: PageView.builder(
+            body: PageView.builder(    
             onPageChanged: (val) {
               model.setUrl(newsList[val].url);
             },
@@ -66,7 +66,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
             itemBuilder: (context, index) {
               if(model.currentState == ViewState.busy)
               {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: ClipRRect(borderRadius: BorderRadius.circular(30.0),child: Container(padding: EdgeInsets.all(10.0),color: Colors.black,child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),))),);
               }
               return NewsCard(
                 news: newsList[index],

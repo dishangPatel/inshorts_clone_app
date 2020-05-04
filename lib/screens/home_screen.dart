@@ -11,11 +11,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final PageController masterController = PageController(initialPage: 1);
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
+        physics: ScrollPhysics(parent:BouncingScrollPhysics()),
         onPageChanged: (value) => print(value),
         controller: masterController,
         scrollDirection: Axis.horizontal,
