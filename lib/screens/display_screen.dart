@@ -25,12 +25,12 @@ class _DisplayScreenState extends State<DisplayScreen> {
   void initState() {
     print("display screen");
     super.initState();
-    newsModel.fetchNews(page);    
-
+    newsModel.fetchNews(page);
+    
     _pageController.addListener(() {
       if (_pageController.position.pixels ==
           _pageController.position.maxScrollExtent) {
-            print("fetch more");
+        print("fetch more");
         newsModel.fetchNews(++page);
       }
     });
@@ -56,20 +56,26 @@ class _DisplayScreenState extends State<DisplayScreen> {
       child: ScopedModelDescendant<NewsModel>(
         builder: (context, child, model) {
           newsList = model.newsList;
-          return (model.currentState == ViewState.busy)
-              ? SizedBox(child:CircularProgressIndicator(),height: 30.0,width: 30.0,)
-              : PageView.builder(
-                  onPageChanged: (val) {
-                    model.setUrl(newsList[val].url);
-                  },
-                  controller: _pageController,
-                  itemCount: newsList.length,
-                  itemBuilder: (context, index) => NewsCard(
-                    news: newsList[index],
-                    masterController: widget.masterController,
-                  ),
-                  scrollDirection: Axis.vertical,
-                );
+          return Scaffold(
+            body: PageView.builder(
+            onPageChanged: (val) {
+              model.setUrl(newsList[val].url);
+            },
+            controller: _pageController,
+            itemCount: newsList.length,
+            itemBuilder: (context, index) {
+              if(model.currentState == ViewState.busy)
+              {
+                return Center(child: CircularProgressIndicator());
+              }
+              return NewsCard(
+                news: newsList[index],
+                masterController: widget.masterController,
+              );
+            },
+            scrollDirection: Axis.vertical,
+          ),
+          );
         },
       ),
     );

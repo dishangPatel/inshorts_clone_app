@@ -28,6 +28,7 @@ class NewsCard extends StatelessWidget {
       body: Container(
         // padding: EdgeInsets.all(10.0),
         child: Column(
+          
           children: <Widget>[
             Expanded(
               flex: 3,
@@ -94,23 +95,24 @@ class NewsCard extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 //open we view for this post
-                masterController.animateToPage(2, duration: Duration(seconds: 1), curve: Curves.ease);
+                masterController.animateToPage(2, duration: Duration(seconds: 1), curve: Curves.easeOut);
                 print('tapped');
               },
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.095,
                 child: Stack(
                   children: <Widget>[
-                    ClipRect(
+                    ClipRRect(
+                      borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10.0),
+                              bottomRight: Radius.circular(10.0)),  
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.grey,
                           image: DecorationImage(
                               image: NetworkImage(news.urlToImage),
                               fit: BoxFit.cover),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
+                          
                         ),
                         child: BackdropFilter(
                           filter: ImageFilter.blur(
