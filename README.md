@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # inshorts_clone
 
 A new Flutter project.
@@ -18,4 +18,4 @@ samples, guidance on mobile development, and a full API reference.
 =======
 # inshortsClone
 This is a clone application of "Inshorts", the news application. created in flutter
->>>>>>> 60278eaf937eb293fcea0616e3f69ae641fd9a4a
+
