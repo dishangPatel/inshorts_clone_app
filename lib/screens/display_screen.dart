@@ -31,7 +31,8 @@ class _DisplayScreenState extends State<DisplayScreen> {
       if (_pageController.position.pixels ==
           _pageController.position.maxScrollExtent) {
         print("fetch more");
-        newsModel.fetchNews(++page);
+        page++;
+        newsModel.fetchNews(page);
       }
     });
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

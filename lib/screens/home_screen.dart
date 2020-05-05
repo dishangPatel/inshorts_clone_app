@@ -9,7 +9,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final PageController masterController = PageController(initialPage: 1);
+  final PageController masterController = PageController(initialPage: 1,keepPage: true);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
         scrollDirection: Axis.horizontal,
         children: <Widget>[
           GenreScreen(),
-          DisplayScreen(
+           DisplayScreen(
             masterController: masterController,
           ),
           BrowserScreen(
