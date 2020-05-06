@@ -7,8 +7,9 @@ import 'package:inshorts_clone/locator/locator.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class DisplayScreen extends StatefulWidget {
-  DisplayScreen({@required this.masterController});
+  DisplayScreen({@required this.masterController,this.key}):super(key:key);
   final PageController masterController;
+  final Key key;
   // final Function setURL;
   @override
   _DisplayScreenState createState() => _DisplayScreenState();
@@ -59,16 +60,15 @@ class _DisplayScreenState extends State<DisplayScreen> {
           newsList = model.newsList;
           return Scaffold(
             body: PageView.builder(    
+            // key: PageStorageKey("news list"),  
             onPageChanged: (val) {
               model.setUrl(newsList[val].url);
             },
             controller: _pageController,
             itemCount: newsList.length,
             itemBuilder: (context, index) {
-              if(model.currentState == ViewState.busy)
-              {
-                return Center(child: ClipRRect(borderRadius: BorderRadius.circular(30.0),child: Container(padding: EdgeInsets.all(10.0),color: Colors.black,child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),))),);
-              }
+              if(index == newsList.length)
+                return Center(child: CircularProgressIndicator(),);
               return NewsCard(
                 news: newsList[index],
                 masterController: widget.masterController,

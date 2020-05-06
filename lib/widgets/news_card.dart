@@ -19,9 +19,10 @@ class NewsCard extends StatelessWidget {
     }
 
     int hoursDiff = _getTime(news.publishedAt);
-    String time = (hoursDiff > 2) ? '$hoursDiff hours ago' : 'few hours ago';
+    // if(hoursDiff > 24) 
+    String time = (hoursDiff > 2) ? (hoursDiff<24)?'$hoursDiff hours ago' :'${hoursDiff~/24} day ago' : 'few hours ago';
     // TimeOfDay.fromDateTime();
-
+  
     return Scaffold(
       key: UniqueKey(),
       backgroundColor: Colors.black,

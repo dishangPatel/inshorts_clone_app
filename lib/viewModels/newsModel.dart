@@ -41,7 +41,7 @@ class NewsModel extends Model {
         setState(ViewState.ideal);
       } else {
         setState(ViewState.ideal);
-        throw Exception("Something went wrong");
+        throw Exception("something went wrong");
       }
     } catch (e) {
       throw e;

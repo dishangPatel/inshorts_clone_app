@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class GenreScreen extends StatefulWidget {
+
+  GenreScreen({this.key,@required this.masterController}):super(key:key);
+  final PageController masterController;
+  final Key key;
   @override
   _GenreScreenState createState() => _GenreScreenState();
 }

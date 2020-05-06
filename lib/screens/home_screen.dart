@@ -20,11 +20,16 @@ class _HomeState extends State<Home> {
         controller: masterController,
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-          GenreScreen(),
+          GenreScreen(
+            masterController: masterController,
+            key: PageStorageKey("genre"),
+          ),
            DisplayScreen(
+            key: PageStorageKey("display"),
             masterController: masterController,
           ),
           BrowserScreen(
+            key:PageStorageKey("browser"),
             masterCotroller: masterController,
           ),
         ],

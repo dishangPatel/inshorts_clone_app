@@ -5,10 +5,13 @@ import 'package:inshorts_clone/viewModels/newsModel.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class BrowserScreen extends StatefulWidget {
-  BrowserScreen({@required this.masterCotroller, this.sourceName})
-      : assert(masterCotroller != null);
+  BrowserScreen({@required this.masterCotroller, this.sourceName,this.key})
+      : assert(masterCotroller != null),
+        super(key:key);
+
   final PageController masterCotroller;
   final String sourceName;
+  final Key key;
   @override
   _BrowserScreenState createState() => _BrowserScreenState();
 }

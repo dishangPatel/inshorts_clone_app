@@ -11,11 +11,11 @@ class News
     _srcName = json["source"]['name'];
     _author = json['author'];
     _content = json['content'];
-    _description = json['description'];
+    _description = json['description'] ?? "Please try detailed read";
     _publishedAt = json['publishedAt'];
     _title = json['title'];
     _url = json['url'];
-    _urlToImage = json['urlToImage']; 
+    _urlToImage = json['urlToImage'] ?? "https://lh3.googleusercontent.com/3oizzXFrBNU1qzCcRXNpMTkvT1yRbV9g20ATp8AseG4n5FNLrHD9eXrUJzDOXxZVijbNrKtfgWk=w640-h400-e365"; 
   }
 
   String get srcId => _srcId;
